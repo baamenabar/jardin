@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  jardin:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: jardin-garden-os
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - OPENAI_BASE_URL=${LLM_API_BASE_URL:-https://openrouter.ai/api/v1}
+      - OPENAI_API_KEY=${LLM_API_KEY:-}
+      - DEFAULT_LLM_MODEL=${LLM_MODEL:-nousresearch/hermes-3-llama-3.1-8b}
+    volumes:
+      - jardin-data:/data
+
+volumes:
+  jardin-data:
+    driver: local
